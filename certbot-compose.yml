@@ -1,0 +1,18 @@
+services:
+  certbot:
+    image: certbot/certbot
+    container_name: certbotcontainer
+    environment:
+      - CERTBOT_DOMAIN=${CERTBOT_DOMAIN}
+    volumes:
+      - ./ssl:/etc/letsencrypt
+      - ./static:/usr/share/nginx/html/
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html -d ${CERTBOT_DOMAIN} --agree-tos --email mohd.ahsasn@thewitslab.com --no-eff-email --keep-until-expiring --force-renewal --keep
+
+  nginx-certbot:
+    image: nginx:alpine
+    container_name: nginx-certbot
+    volumes:
+      - ./static:/usr/share/nginx/html/
+
+
